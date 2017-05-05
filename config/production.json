@@ -1,0 +1,11 @@
+{
+	"dbURL" : "mongodb://ChatCat:amit1992@ds049104.mongolab.com:49104/chatcat" , 
+	"sessionSecret" : "ajstyleamitjainajpowerajworld",
+	"fb" : {
+
+		"appID" : "1510245815968058",
+		"appSecret" : "9888f6bcad2bc7fafea4d9dc6b0fd32a",
+		"callbackURL": "http://ajchatroom.herokuapp.com/auth/facebook/callback"  
+	},
+	"host":"http://ajchatroom.herokuapp.com"
+}

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>{{title}}</title>
+<script src="https://cdn.socket.io/socket.io-1.3.7.js"></script>
+
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="../css/style.css">
+	
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+<script>
+
+$(function(){
+
+var host = '{{config.host}}'
+var socket = io.connect(host + '/roomlist');
+
+
+
+socket.on('connect',function()
+
+{
+console.log('Connection Established');
+})
+
+
+
+socket.on('roomupdate' , function(data){
+
+
+var procData = JSON.parse(data) ; 
+$('.roomlist').html('');
+for ( i = 0 ; i< procData.length ; i++ )
+{
+var str =  ' <div class = "well"><a href = "room/'+procData[i].room_number + ' "><li>'+procData[i].room_name + '</li> </a></div>' ; 
+
+$('.roomlist').prepend(str);  
+
+}
+
+});
+
+
+
+
+
+
+$(document).on('click','#create',function(){
+
+	var room_name = $('.newRoom').val();
+	if(room_name!='')
+	{
+		var room_number = parseInt(Math.random()*10000);
+	
+ 	socket.emit('newroom',{room_name:room_name ,  room_number:room_number });
+	$('.newRoom').val('');
+	
+
+	}
+
+})
+
+})
+
+</script>
+
+</head>
+<body>
+<div class = "container">
+	<center>
+	<h1>Chatrooms</h1>
+
+<div class = "container">
+<div class = "well">
+<div class = logout>
+<a href = "/logout"><button class = "btn btn-danger">Logout</button></a>
+</div>
+<table align="center">
+
+</td>
+</tr>
+<td>
+<img src = "{{user.profilePic}}" class = "userPic img-circle" />
+<h3 class ="username">{{user.fullname}}</h3>
+</td>
+
+<td>
+
+</td>
+
+
+<td>
+</td>
+
+</tr>
+
+<tr>
+
+<td><input type = "text" class = "newRoom form-control"/></td>
+
+<td><button id = "create" class = "btn btn-success" >Create Room</td>
+
+</button>
+</td>
+</tr>
+
+<tr>
+<td>
+<ul class = "roomlist">
+
+
+</ul>
+</td>
+
+</tr>
+
+
+</div>
+
+</table>
+</div>
+</center>
+</div>
+</div>
+</body>
+
+</html>
